@@ -11,5 +11,5 @@ mongoose
   .then(() => console.log("MongoDB is connected..."))
   .catch((err) => console.log(err));
 
-app.get("/", (req, res) => res.send("This is Shopping Page"));
+app.get("/", (req, res) => res.send("This is Shopping Page 🎈"));
 app.listen(port, () => console.log(`localhost:${port}`));
