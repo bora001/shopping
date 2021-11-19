@@ -1,6 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 function RegisterPage() {
+  const [Email, setEmail] = useState("");
+  const [UserName, setUserName] = useState("");
+  const [Password, setPassword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
+
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    switch (name) {
+      case "Username":
+        setUserName(value);
+        return;
+      case "Email":
+        setEmail(value);
+        return;
+      case "Password":
+        setPassword(value);
+        return;
+      case "ConfirmPassword":
+        setConfirmPassword(value);
+        return;
+    }
+  };
+
+  const onRegister = (e) => {
+    e.preventDefault();
+    console.log(Email, "email");
+    console.log(Password, "password");
+    console.log(UserName, "username");
+  };
+
   return (
     <div>
       <p>Register Page 📝</p>
@@ -13,19 +44,24 @@ function RegisterPage() {
           textIndent: "10px",
           border: "2px solid red",
         }}
+        onSubmit={onRegister}
       >
-        <label for="Username">UserName</label>
-        <input id="Username" />
+        <label htmlFor="Username">UserName</label>
+        <input id="Username" name="Username" onChange={onChange} />
 
-        <label for="Email">Email</label>
-        <input id="Email" />
+        <label htmlFor="Email">Email</label>
+        <input id="Email" name="Email" onChange={onChange} />
 
-        <label for="Password">Password</label>
-        <input id="Password" />
+        <label htmlFor="Password">Password</label>
+        <input id="Password" name="Password" onChange={onChange} />
 
-        <label for="ConfirmPassword">Confirm Password</label>
-        <input id="ConfirmPassword" />
-        <button>Sign up</button>
+        <label htmlFor="ConfirmPassword">Confirm Password</label>
+        <input
+          id="ConfirmPassword"
+          name="ConfirmPassword"
+          onChange={onChange}
+        />
+        <button onSubmit={onRegister}>Sign up</button>
       </form>
     </div>
   );

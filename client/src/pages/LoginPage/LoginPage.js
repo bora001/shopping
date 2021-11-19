@@ -1,6 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
 function LoginPage() {
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    name === "Email" ? setEmail(value) : setPassword(value);
+  };
+
+  const onLogin = (e) => {
+    e.preventDefault();
+    console.log(Email, "email");
+    console.log(Password, "password");
+    console.log("login");
+  };
+
   return (
     <div>
       LoginPage✅
@@ -13,12 +28,13 @@ function LoginPage() {
           textIndent: "10px",
           border: "2px solid red",
         }}
+        onSubmit={onLogin}
       >
-        <label for="Email">Email</label>
-        <input id="Email" />
-        <label for="Password">Password</label>
-        <input id="Password" />
-        <button>Login</button>
+        <label htmlFor="Email">Email</label>
+        <input id="Email" name="Email" onChange={onChange} />
+        <label htmlFor="Password">Password</label>
+        <input id="Password" name="Password" onChange={onChange} />
+        <button onSubmit={onLogin}>Login</button>
       </form>
     </div>
   );
