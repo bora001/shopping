@@ -59,7 +59,7 @@ function RegisterPage() {
         ref.current.reset();
         setTimeout(() => {
           window.location.assign("/login");
-        }, 1200);
+        }, 1000);
       } else {
         alert("failed to register, Please try again");
       }

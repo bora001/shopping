@@ -23,12 +23,10 @@ app.use(express.json());
 
 app.post("/api/register", (req, res) => {
   const user = new User(req.body);
-  return res.status(200).json({ success: true });
-
-  // user.save((err, userInfo) => {
-  //   if (err) return res.json({ success: false, err });
-  //   return res.status(200).json({ success: true });
-  // });
+  user.save((err, userInfo) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({ success: true });
+  });
 });
 
 const port = 5000;
