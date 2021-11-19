@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/bora001/shopping#readme",
   "dependencies": {
+    "antd": "^4.16.13",
     "mongoose": "^6.0.13",
     "nodemon": "^2.0.15"
   },

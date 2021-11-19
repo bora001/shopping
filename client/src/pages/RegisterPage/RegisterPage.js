@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
+import { message } from "antd";
+import "antd/dist/antd.css";
 
 function RegisterPage() {
   const [Email, setEmail] = useState("");
   const [UserName, setUserName] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
+  const ref = useRef("");
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -27,9 +30,40 @@ function RegisterPage() {
 
   const onRegister = (e) => {
     e.preventDefault();
-    console.log(Email, "email");
-    console.log(Password, "password");
-    console.log(UserName, "username");
+
+    let emailCheck = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,3}$/;
+
+    if (Password !== ConfirmPassword) {
+      return message.error("Incorrect password, try again");
+    } else if (Password.length < 5) {
+      return message.warning(
+        "Password should be longer than 5 characters, try again"
+      );
+    } else if (UserName > 50) {
+      return message.warning(
+        "Username should be less than 50 characters, try again"
+      );
+    } else if (!emailCheck.test(Email)) {
+      return message.error("Please Enter valid Email address");
+    }
+
+    let body = {
+      name: UserName,
+      email: Email,
+      password: Password,
+    };
+
+    axios.post("/api/register", body).then((response) => {
+      if (response.data.success) {
+        message.success(`Welcome! ${UserName}`);
+        ref.current.reset();
+        setTimeout(() => {
+          window.location.assign("/login");
+        }, 1200);
+      } else {
+        alert("failed to register, Please try again");
+      }
+    });
   };
 
   return (
@@ -45,6 +79,7 @@ function RegisterPage() {
           border: "2px solid red",
         }}
         onSubmit={onRegister}
+        ref={ref}
       >
         <label htmlFor="Username">UserName</label>
         <input id="Username" name="Username" onChange={onChange} />
