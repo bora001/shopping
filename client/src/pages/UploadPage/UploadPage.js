@@ -1,14 +1,33 @@
 import React from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import Dropzone from "react-dropzone";
+import axios from "axios";
 
 function UploadPage() {
+  const onDrop = (files) => {
+    let formData = new FormData();
+    const config = {
+      header: { "content-type": "form-data" },
+    };
+    formData.append("file", files[0]);
+
+    axios.post("api/product/image", formData, config).then((response) => {
+      if (response.data.success) {
+        console.log(response.data);
+      } else {
+        alert("failed to upload image");
+      }
+    });
+
+    console.log(files, "upload file");
+  };
+
   return (
     <div>
       <h1>Upload Page</h1>
       <div>
         <div className="img_box" style={{ display: "flex" }}>
-          <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
+          <Dropzone onDrop={onDrop}>
             {({ getRootProps, getInputProps }) => (
               <div
                 style={{
