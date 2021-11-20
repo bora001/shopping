@@ -14,6 +14,12 @@ function LandingPage() {
     });
   }, []);
 
+  const onLogout = (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    console.log("logout");
+  };
+
   return (
     <div>
       Landing Page 🎈
@@ -23,6 +29,7 @@ function LandingPage() {
       <a href="/register" style={{ border: "2px solid gold", padding: "10px" }}>
         register
       </a>
+      <button onClick={onLogout}>logout</button>
     </div>
   );
 }
