@@ -1,24 +1,32 @@
 import React from "react";
 import { PlusOutlined } from "@ant-design/icons";
+import Dropzone from "react-dropzone";
+
 function UploadPage() {
   return (
     <div>
       <h1>Upload Page</h1>
       <div>
         <div className="img_box" style={{ display: "flex" }}>
-          <div
-            className="img_left"
-            style={{
-              border: "2px solid gold",
-              width: "250px",
-              height: "250px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <PlusOutlined style={{ fontSize: "32px" }} />
-          </div>
+          <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
+            {({ getRootProps, getInputProps }) => (
+              <div
+                style={{
+                  width: "250px",
+                  height: "250px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "2px solid black",
+                }}
+                {...getRootProps()}
+              >
+                <input {...getInputProps()} />
+                <PlusOutlined style={{ fontSize: "32px" }} />
+              </div>
+            )}
+          </Dropzone>
+
           <div
             className="img_right"
             style={{
