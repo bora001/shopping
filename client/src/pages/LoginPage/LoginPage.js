@@ -31,9 +31,14 @@ function LoginPage() {
         onSubmit={onLogin}
       >
         <label htmlFor="Email">Email</label>
-        <input id="Email" name="Email" onChange={onChange} />
+        <input type="email" id="Email" name="Email" onChange={onChange} />
         <label htmlFor="Password">Password</label>
-        <input id="Password" name="Password" onChange={onChange} />
+        <input
+          type="password"
+          id="Password"
+          name="Password"
+          onChange={onChange}
+        />
         <button onSubmit={onLogin}>Login</button>
       </form>
     </div>

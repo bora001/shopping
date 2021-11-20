@@ -82,16 +82,22 @@ function RegisterPage() {
         ref={ref}
       >
         <label htmlFor="Username">UserName</label>
-        <input id="Username" name="Username" onChange={onChange} />
+        <input type="text" id="Username" name="Username" onChange={onChange} />
 
         <label htmlFor="Email">Email</label>
-        <input id="Email" name="Email" onChange={onChange} />
+        <input type="email" id="Email" name="Email" onChange={onChange} />
 
         <label htmlFor="Password">Password</label>
-        <input id="Password" name="Password" onChange={onChange} />
+        <input
+          type="password"
+          id="Password"
+          name="Password"
+          onChange={onChange}
+        />
 
         <label htmlFor="ConfirmPassword">Confirm Password</label>
         <input
+          type="password"
           id="ConfirmPassword"
           name="ConfirmPassword"
           onChange={onChange}
