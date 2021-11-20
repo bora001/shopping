@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 function LoginPage() {
@@ -11,9 +12,24 @@ function LoginPage() {
 
   const onLogin = (e) => {
     e.preventDefault();
-    console.log(Email, "email");
-    console.log(Password, "password");
-    console.log("login");
+
+    let body = {
+      email: Email,
+      password: Password,
+    };
+
+    axios.post("/api/login", body).then((response) => {
+      console.log(response.data);
+
+      if (response.data.loginSuccess) {
+        localStorage.setItem("x_auth", response.data.userId);
+        // console.log(response.data.userId);
+      }
+    });
+
+    // console.log(Email, "email");
+    // console.log(Password, "password");
+    // console.log("login");
   };
 
   return (

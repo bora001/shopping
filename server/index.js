@@ -29,5 +29,33 @@ app.post("/api/register", (req, res) => {
   });
 });
 
+// login
+
+app.post("/api/login", (req, res) => {
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (!user) {
+      return res.json({
+        loginSuccess: false,
+        message: "We can not find the email",
+      });
+    }
+
+    user.comparePassword(req.body.password, (err, isMatch) => {
+      if (!isMatch)
+        return res.json({
+          loginSuccess: false,
+          message: "incorrect Password",
+        });
+
+      user.generateToken((err, user) => {
+        if (err) {
+          return res.status(400).send(err, "index generateToken error");
+        }
+        return res.status(200).json({ loginSuccess: true, userId: user._id });
+      });
+    });
+  });
+});
+
 const port = 5000;
 app.listen(port, () => console.log(`localhost:${port}`));
