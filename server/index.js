@@ -3,7 +3,11 @@ const app = express();
 // const port = process.env.PORT || 5000;
 const config = require("./config/key");
 const { User } = require("./models/User");
+const { auth } = require("./middleware/Auth");
+const cookieParser = require("cookie-parser");
+
 const mongoose = require("mongoose");
+app.use(cookieParser());
 
 mongoose
   .connect(config.mongoURL, {
@@ -47,13 +51,42 @@ app.post("/api/login", (req, res) => {
           message: "incorrect Password",
         });
 
+      // console.log(accessTokenObj);
       user.generateToken((err, user) => {
-        if (err) {
-          return res.status(400).send(err, "index generateToken error");
-        }
-        return res.status(200).json({ loginSuccess: true, userId: user._id });
+        // let accessTokenObj = JSON.parse(localStorage.getItem("Token:"));
+
+        console.log(user.token, "tk");
+        if (err) return res.status(400).send(err);
+        return res.status(200).json({
+          loginSuccess: true,
+          token: user.token,
+          // userId: accessTokenObj,
+        });
+        // res.cookie("w_authExp", user.tokenExp);
+        // res.cookie("w_auth", user.token).status(200).json({
+        // loginSuccess: true,
+        // userId: user._id,
+        // });
       });
+      // user.generateToken((err, user) => {
+      //   if (err) {
+      //     return res.status(400).send(err, "index generateToken error");
+      //   }
+      //   return res.status(200).json({ loginSuccess: true, userId: user._id });
+      // });
     });
+  });
+});
+
+// auth
+app.post("/api/auth", (req, res) => {
+  console.log("index auth", req.body);
+  let token = req.body.token;
+  User.findByToken(token, (err, user) => {
+    // console.log(token);
+    if (err) throw err;
+    if (!user) return res.json({ isAuth: false, error: true });
+    return res.json({ user });
   });
 });
 

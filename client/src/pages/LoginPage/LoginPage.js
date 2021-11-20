@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 function LoginPage() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const ref = useRef("");
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -22,14 +23,13 @@ function LoginPage() {
       console.log(response.data);
 
       if (response.data.loginSuccess) {
-        localStorage.setItem("x_auth", response.data.userId);
-        // console.log(response.data.userId);
+        localStorage.setItem("x_auth", response.data.token);
+        ref.current.reset();
+        setTimeout(() => {
+          window.location.assign("/");
+        }, 1000);
       }
     });
-
-    // console.log(Email, "email");
-    // console.log(Password, "password");
-    // console.log("login");
   };
 
   return (
@@ -44,6 +44,7 @@ function LoginPage() {
           textIndent: "10px",
           border: "2px solid red",
         }}
+        ref={ref}
         onSubmit={onLogin}
       >
         <label htmlFor="Email">Email</label>

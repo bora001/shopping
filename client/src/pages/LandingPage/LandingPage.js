@@ -6,6 +6,12 @@ function LandingPage() {
     axios.get("/api/test").then((response) => {
       console.log(response);
     });
+
+    let token = window.localStorage.getItem("x_auth");
+    axios.post("/api/auth", { token }).then((response) => {
+      console.log("landing auth res", response.data.user);
+      console.log("landing auth res");
+    });
   }, []);
 
   return (
