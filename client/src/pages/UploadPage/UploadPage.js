@@ -2,9 +2,17 @@ import React, { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import Dropzone from "react-dropzone";
 import axios from "axios";
+import { message } from "antd";
 
 function UploadPage() {
   const [Image, setImage] = useState("");
+  const [Info, setInfo] = useState({
+    title: null,
+    Image: null,
+    desc: null,
+    price: null,
+    option: null,
+  });
 
   const onDrop = (files) => {
     let formData = new FormData();
@@ -17,13 +25,38 @@ function UploadPage() {
       if (response.data.success) {
         console.log(response.data, "res uploadpage");
         setImage(response.data.filePath);
-        console.log(Image, "img path");
+        setInfo({ ...Info, Image: response.data.filePath });
       } else {
         alert("failed to upload image");
       }
     });
 
     console.log(files, "upload file");
+  };
+
+  const onChange = (e) => {
+    const { value, name } = e.target;
+    console.log("change img", Image);
+    setInfo({ ...Info, [name]: value, Image });
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(Info);
+    let err = Object.entries(Info).filter((obj) => Boolean(obj[1]) === false);
+
+    if (err.length !== 0) {
+      console.log("info", err[0][0]);
+      message.warning(`Please enter the ${err[0][0]}`);
+    } else {
+      axios.post("/api/product", Info).then((response) => {
+        if (response.data.success) {
+          message.success(`Thank you for upload!`);
+          window.location.assign("/");
+        } else {
+          message.error("failed to upload, try again");
+        }
+      });
+    }
   };
 
   return (
@@ -74,20 +107,22 @@ function UploadPage() {
             <label>Description</label>
             <label>Price $</label>
           </div>
-          <div
-            className="input_right"
-            style={{ display: "flex", flexDirection: "column" }}
-          >
-            <input type="text" name="title" />
-            <textarea type="text" name="description" />
-            <input type="number" name="price" />
-            <select>
-              <option>bread</option>
-              <option>coffee</option>
-            </select>
+          <div className="input_right">
+            <form
+              onSubmit={onSubmit}
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <input type="text" name="title" onChange={onChange} />
+              <textarea type="text" name="desc" onChange={onChange} />
+              <input type="number" name="price" onChange={onChange} />
+              <select name="option" onChange={onChange}>
+                <option>bread</option>
+                <option>coffee</option>
+              </select>
+              <button onSubmit={onSubmit}>Submit</button>
+            </form>
           </div>
         </div>
-        <button>Submit</button>
       </div>
     </div>
   );
