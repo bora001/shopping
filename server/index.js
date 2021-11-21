@@ -23,6 +23,8 @@ app.get("/api/test", (req, res) => res.send("this is test"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/api/product", require("./routes/product"));
+app.use("/upload", express.static("upload"));
+
 // register
 
 app.post("/api/register", (req, res) => {
