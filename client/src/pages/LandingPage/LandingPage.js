@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import ProductList from "../ProductList/ProductList";
 
 function LandingPage() {
   const [UserInfo, setUserInfo] = useState("");
+
   useEffect(() => {
     axios.get("/api/test").then((response) => {
       console.log(response);
@@ -24,28 +26,35 @@ function LandingPage() {
   };
 
   return (
-    <div style={{ display: "flex", backgroundColor: "#ffdc8c" }}>
-      <h1>Bakery🍞</h1>
-      {UserInfo && UserInfo ? (
-        <div>
-          <a href="/upload">
-            <button>Upload</button>
-          </a>
-          <ShoppingCartOutlined
-            style={{ fontSize: "25px", color: "#Da9D26" }}
-          />
-          <button onClick={onLogout}>logout</button>
-        </div>
-      ) : (
-        <div>
-          <a href="/login">
-            <button>login</button>
-          </a>
-          <a href="/register">
-            <button>register</button>
-          </a>
-        </div>
-      )}
+    <div>
+      <div
+        className="header"
+        style={{ display: "flex", backgroundColor: "#ffdc8c" }}
+      >
+        <h1>Bakery🍞</h1>
+        {UserInfo && UserInfo ? (
+          <div>
+            <a href="/upload">
+              <button>Upload</button>
+            </a>
+            <ShoppingCartOutlined
+              style={{ fontSize: "25px", color: "#Da9D26" }}
+            />
+            <button onClick={onLogout}>logout</button>
+          </div>
+        ) : (
+          <div>
+            <a href="/login">
+              <button>login</button>
+            </a>
+            <a href="/register">
+              <button>register</button>
+            </a>
+          </div>
+        )}
+      </div>
+
+      <ProductList />
     </div>
   );
 }

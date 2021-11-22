@@ -26,6 +26,9 @@ const productSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  Image: {
+    type: String,
+  },
 });
 
 const Product = mongoose.model("Product", productSchema);

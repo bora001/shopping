@@ -35,4 +35,11 @@ router.post("/image", (req, res) => {
   });
 });
 
+router.get("/list", (req, res) => {
+  Product.find().exec((err, products) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).json({ success: true, products });
+  });
+});
+
 module.exports = router;
