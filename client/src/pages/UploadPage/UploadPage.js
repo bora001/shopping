@@ -119,6 +119,7 @@ function UploadPage() {
                 <option>Bread</option>
                 <option>Coffee</option>
                 <option>Dessert</option>
+                <option>Sandwich</option>
               </select>
               <button onSubmit={onSubmit}>Submit</button>
             </form>

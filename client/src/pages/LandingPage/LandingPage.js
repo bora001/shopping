@@ -29,11 +29,18 @@ function LandingPage() {
     <div>
       <div
         className="header"
-        style={{ display: "flex", backgroundColor: "#ffdc8c" }}
+        style={{
+          display: "flex",
+          backgroundColor: "#ffdc8c",
+          padding: "1% 2%",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
       >
-        <h1>Bakery🍞</h1>
+        <h1>Bakery 🍞</h1>
         {UserInfo && UserInfo ? (
           <div>
+            <p>Welcome ! {UserInfo.name}</p>
             <a href="/upload">
               <button>Upload</button>
             </a>
@@ -53,7 +60,6 @@ function LandingPage() {
           </div>
         )}
       </div>
-
       <ProductList />
     </div>
   );

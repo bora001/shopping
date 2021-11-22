@@ -31,5 +31,20 @@ const productSchema = mongoose.Schema({
   },
 });
 
+//search
+
+productSchema.index(
+  {
+    title: "text",
+    desc: "text",
+  },
+  {
+    weights: {
+      title: 5,
+      desc: 1,
+    },
+  }
+);
+
 const Product = mongoose.model("Product", productSchema);
 module.exports = { Product };
