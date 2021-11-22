@@ -116,8 +116,9 @@ function UploadPage() {
               <textarea type="text" name="desc" onChange={onChange} />
               <input type="number" name="price" onChange={onChange} />
               <select name="option" onChange={onChange}>
-                <option>bread</option>
-                <option>coffee</option>
+                <option>Bread</option>
+                <option>Coffee</option>
+                <option>Dessert</option>
               </select>
               <button onSubmit={onSubmit}>Submit</button>
             </form>
