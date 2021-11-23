@@ -38,6 +38,7 @@ router.post("/image", (req, res) => {
 router.post("/list", (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 100;
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+  let page = req.body.currentPage;
 
   Product.find()
     .skip(skip)
@@ -49,20 +50,25 @@ router.post("/list", (req, res) => {
 });
 
 router.post("/search", (req, res) => {
-  let limit = req.body.limit ? parseInt(req.body.limit) : 100;
-  let skip = req.body.skip ? parseInt(req.body.skip) : 0;
   let search = req.body.search;
 
   Product.find()
     .find({ $text: { $search: `${search}` } })
-    // .skip(skip)
-    // .limit(limit)
     .exec((err, products) => {
       if (err) return res.status(400).send(err);
       return res
         .status(200)
         .json({ success: true, newproduct: true, products });
     });
+});
+
+router.post("/category", (req, res) => {
+  let search = req.body.value;
+
+  Product.find({ option: search }).exec((err, products) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).json({ success: true, newproduct: true, products });
+  });
 });
 
 module.exports = router;

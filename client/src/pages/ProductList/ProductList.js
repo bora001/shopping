@@ -2,58 +2,16 @@ import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import { Row, Col } from "antd";
 import Search from "../LandingPage/Section/Search";
-
-function ProductList() {
-  const [Products, setProducts] = useState([]);
-  const [limit, setlimit] = useState(4);
-  const [skip, setskip] = useState(0);
-  const [search, setsearch] = useState("");
+function ProductList({ Products, keyword }) {
+  console.log(keyword);
+  const [Product, setProduct] = useState();
 
   useEffect(() => {
-    let body = { skip, limit };
-    getProducts(body);
+    setProduct(Products);
   }, []);
-
-  const getProducts = (body) => {
-    axios.post("/api/product/list", body).then((response) => {
-      if (Products.length == 0) {
-        setProducts(response.data.products);
-      } else {
-        console.log(response.data);
-        setProducts([...Products, ...response.data.products]);
-      }
-    });
-  };
-
-  const searchProducts = (body) => {
-    axios.post("/api/product/search", body).then((response) => {
-      setProducts(response.data.products);
-    });
-  };
-
-  const viewMore = (e) => {
-    e.preventDefault();
-    let body = { skip: skip + limit, limit };
-    getProducts(body);
-    setskip(skip + limit);
-  };
-
-  // search
-  const onChange = (e) => {
-    const { value } = e.target;
-    setsearch(value);
-  };
-
-  const onSearch = (e) => {
-    e.preventDefault();
-    let body = { skip: skip + limit, limit, search };
-    searchProducts(body);
-  };
 
   return (
     <div>
-      <Search onChange={onChange} onSearch={onSearch} />
-
       <div
         style={{
           display: "flex",
@@ -63,12 +21,12 @@ function ProductList() {
           margin: "0 auto",
         }}
       >
-        <Row>
-          {Products &&
-            Products.map((info, index) => {
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Row style={{ border: "2px solid red" }}>
+            {Products.map((info, index) => {
               return (
                 <Col
-                  lg={6}
+                  lg={8}
                   md={8}
                   xs={24}
                   key={index}
@@ -104,20 +62,8 @@ function ProductList() {
                 </Col>
               );
             })}
-        </Row>
-        {Products.length === 0 ? (
-          <div>
-            <p>
-              Can not find the product by "
-              <span style={{ fontWeight: "700" }}> {search}</span> "
-            </p>
-            <a href="/">
-              <button herf="/">main page</button>
-            </a>
-          </div>
-        ) : (
-          <button onClick={viewMore}>View more</button>
-        )}
+          </Row>
+        </div>
       </div>
     </div>
   );

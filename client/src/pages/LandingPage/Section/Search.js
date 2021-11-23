@@ -10,13 +10,13 @@ function Search({ onSearch, onChange }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          backgroundColor: "rgba(240, 217, 155, 0.926)",
+          // backgroundColor: "rgba(240, 217, 155, 0.226)",
         }}
       >
         <input
           style={{
             border: "none",
-            backgroundColor: "rgba(240, 217, 155, 0.726)",
+            // backgroundColor: "rgba(240, 217, 155, 0.126)",
           }}
           onChange={onChange}
         />
