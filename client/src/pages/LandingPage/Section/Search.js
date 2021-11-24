@@ -12,6 +12,7 @@ function Search({ onSearch, onChange }) {
           alignItems: "center",
           // backgroundColor: "rgba(240, 217, 155, 0.226)",
         }}
+        onSubmit={onSearch}
       >
         <input
           style={{
@@ -20,7 +21,8 @@ function Search({ onSearch, onChange }) {
           }}
           onChange={onChange}
         />
-        <button onClick={onSearch} style={{ border: "none" }}>
+
+        <button style={{ border: "none" }} onSubmit={onSearch}>
           <SearchOutlined
             style={{ color: "rgba(197, 116, 10, 0.726)", cursor: "pointer" }}
           />

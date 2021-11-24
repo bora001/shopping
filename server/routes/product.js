@@ -35,40 +35,44 @@ router.post("/image", (req, res) => {
   });
 });
 
-router.post("/list", (req, res) => {
+router.post("/getlist", (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 100;
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
-  let page = req.body.currentPage;
 
-  Product.find()
-    .skip(skip)
-    .limit(limit)
-    .exec((err, products) => {
-      if (err) return res.status(400).send(err);
-      return res.status(200).json({ success: true, products });
-    });
-});
+  if (Object.keys(req.body)[2] === undefined) {
+    //normal (main)
+    Product.find()
+      .skip(skip)
+      .limit(limit)
+      .exec((err, products) => {
+        if (err) return res.status(400).send(err);
+        return res.status(200).json({ success: true, products });
+      });
+  } else {
+    if (Object.keys(req.body)[2] === "menu") {
+      //menu selected
+      let search = req.body.menu;
 
-router.post("/search", (req, res) => {
-  let search = req.body.search;
+      Product.find({ option: search }).exec((err, products) => {
+        if (err) return res.status(400).send(err);
+        return res
+          .status(200)
+          .json({ success: true, newproduct: true, products });
+      });
+    } else if (Object.keys(req.body)[2] === "search") {
+      //search
+      let search = req.body.search;
 
-  Product.find()
-    .find({ $text: { $search: `${search}` } })
-    .exec((err, products) => {
-      if (err) return res.status(400).send(err);
-      return res
-        .status(200)
-        .json({ success: true, newproduct: true, products });
-    });
-});
-
-router.post("/category", (req, res) => {
-  let search = req.body.value;
-
-  Product.find({ option: search }).exec((err, products) => {
-    if (err) return res.status(400).send(err);
-    return res.status(200).json({ success: true, newproduct: true, products });
-  });
+      Product.find()
+        .find({ $text: { $search: `${search}` } })
+        .exec((err, products) => {
+          if (err) return res.status(400).send(err);
+          return res
+            .status(200)
+            .json({ success: true, newproduct: true, products });
+        });
+    }
+  }
 });
 
 module.exports = router;

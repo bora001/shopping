@@ -57,7 +57,7 @@ app.post("/api/login", (req, res) => {
       user.generateToken((err, user) => {
         // let accessTokenObj = JSON.parse(localStorage.getItem("Token:"));
 
-        console.log(user.token, "tk");
+        // console.log(user.token, "tk");
         if (err) return res.status(400).send(err);
         return res.status(200).json({
           loginSuccess: true,
@@ -82,7 +82,7 @@ app.post("/api/login", (req, res) => {
 
 // auth
 app.post("/api/auth", (req, res) => {
-  console.log("index auth", req.body);
+  // console.log("index auth", req.body);
   let token = req.body.token;
   User.findByToken(token, (err, user) => {
     // console.log(token);
