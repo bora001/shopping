@@ -5,6 +5,7 @@ const config = require("./config/key");
 const { User } = require("./models/User");
 const { auth } = require("./middleware/Auth");
 const cookieParser = require("cookie-parser");
+const { Product } = require("./models/Product");
 
 const mongoose = require("mongoose");
 app.use(cookieParser());
@@ -89,6 +90,17 @@ app.post("/api/auth", (req, res) => {
     if (err) throw err;
     if (!user) return res.json({ isAuth: false, error: true });
     return res.json({ user });
+  });
+});
+
+//menu
+app.post("/api/:menu", (req, res) => {
+  // console.log(req.body);
+  let search = req.body.search;
+  // return res.status(200).json({ success: true, req: req.body.search });
+  Product.find({ option: search }).exec((err, products) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).json({ success: true, newproduct: true, products });
   });
 });
 

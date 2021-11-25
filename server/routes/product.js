@@ -35,6 +35,10 @@ router.post("/image", (req, res) => {
   });
 });
 
+// router.post("getinfo", (req, res) => {
+//   console.log("getinfo, router");
+// });
+
 router.post("/getlist", (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 100;
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;

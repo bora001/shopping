@@ -3,14 +3,35 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import Nav from "./pages/LandingPage/Section/Nav";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import ProductPage from "./pages/ProductPage/ProductPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import UploadPage from "./pages/UploadPage/UploadPage";
+import axios from "axios";
+import MenuPage from "./pages/MenuPage/MenuPage";
 
 function App() {
-  const [newBody, setnewBody] = useState("");
+  const [CurrentPage, setCurrentPage] = useState("Main");
   const [limit, setlimit] = useState(3);
   const [skip, setskip] = useState(0);
+  const [Products, setProducts] = useState([]);
+  const [keyword, setkeyword] = useState("");
+  const [searchActive, setsearchActive] = useState(false);
+  const [newBody, setnewBody] = useState("");
   const [search, setsearch] = useState("");
+  let method = Object.keys(newBody)[2];
+
+  useEffect(() => {
+    let body = { skip, limit };
+
+    if (newBody) {
+      if (method !== undefined) {
+        setCurrentPage(method);
+      }
+      getProducts(newBody);
+    } else {
+      getProducts(body);
+    }
+  }, [newBody]);
 
   const onChange = (e) => {
     const { value } = e.target;
@@ -21,6 +42,9 @@ function App() {
     e.preventDefault();
     let body = { skip: skip + limit, limit, search };
     setnewBody(body);
+    setsearchActive(true);
+    setkeyword(search);
+    e.target.reset();
   };
 
   const getMenuPage = (e) => {
@@ -29,22 +53,61 @@ function App() {
     setnewBody(body);
   };
 
+  const getProducts = (body) => {
+    axios.post("/api/product/getlist", body).then((response) => {
+      setProducts(response.data.products);
+    });
+  };
+
+  const viewMore = (e) => {
+    e.preventDefault();
+    let body = { skip, limit: limit + limit };
+
+    getProducts(body);
+    setlimit(limit + limit);
+  };
+
   return (
-    <Router>
-      <div>
-        <Nav
-          onChange={onChange}
-          onSearch={onSearch}
-          getMenuPage={getMenuPage}
-        />
+    <div>
+      <Nav onChange={onChange} onSearch={onSearch} getMenuPage={getMenuPage} />
+      <Router>
         <Routes>
-          <Route exact path="/" element={<LandingPage newBody={newBody} />} />
-          <Route exact path="/upload" element={<UploadPage />} />
-          <Route exact path="/login" element={<LoginPage />} />
-          <Route exact path="/register" element={<RegisterPage />} />
+          <Route
+            exact
+            path="/"
+            element={
+              <LandingPage
+                Products={Products}
+                CurrentPage={CurrentPage}
+                keyword={keyword}
+                searchActive={searchActive}
+                viewMore={viewMore}
+              />
+            }
+          />
+          <Route path="/upload" element={<UploadPage path="upload" />} />
+          <Route path="/login" element={<LoginPage path="/login" />} />
+          <Route path="/register" element={<RegisterPage path="/register" />} />
+          <Route
+            path="/product/:productId"
+            element={<ProductPage path="/product/:productId" />}
+          />
+          <Route
+            path="/:menu"
+            element={
+              <MenuPage
+                path="/:menu"
+                onChange={onChange}
+                onSearch={onSearch}
+                searchActive={searchActive}
+                newBody={newBody}
+                keyword={keyword}
+              />
+            }
+          />
         </Routes>
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 }
 

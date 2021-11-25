@@ -4,7 +4,7 @@ import Dropzone from "react-dropzone";
 import axios from "axios";
 import { message } from "antd";
 
-function UploadPage() {
+function UploadPage(props) {
   const [Image, setImage] = useState("");
   const [Info, setInfo] = useState({
     title: null,

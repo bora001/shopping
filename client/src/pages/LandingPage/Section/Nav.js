@@ -53,14 +53,7 @@ function Nav({ onSearch, onChange, getMenuPage }) {
                 marginRight: "10px",
               }}
             >
-              <p
-                style={{
-                  margin: "auto 0",
-                }}
-                // onClick={getMenuPage}
-              >
-                {menu}
-              </p>
+              <a href={`/${menu}`}>{menu}</a>
             </div>
           );
         })}

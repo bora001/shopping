@@ -10,14 +10,12 @@ function Search({ onSearch, onChange }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          // backgroundColor: "rgba(240, 217, 155, 0.226)",
         }}
         onSubmit={onSearch}
       >
         <input
           style={{
             border: "none",
-            // backgroundColor: "rgba(240, 217, 155, 0.126)",
           }}
           onChange={onChange}
         />
