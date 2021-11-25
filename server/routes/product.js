@@ -35,9 +35,13 @@ router.post("/image", (req, res) => {
   });
 });
 
-// router.post("getinfo", (req, res) => {
-//   console.log("getinfo, router");
-// });
+router.post("/getinfo", (req, res) => {
+  let body = req.body;
+  Product.find(body).exec((err, info) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).json({ success: true, info });
+  });
+});
 
 router.post("/getlist", (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 100;
@@ -50,7 +54,7 @@ router.post("/getlist", (req, res) => {
       .limit(limit)
       .exec((err, products) => {
         if (err) return res.status(400).send(err);
-        return res.status(200).json({ success: true, products });
+        return res.status(200).json({ success: true, ...products });
       });
   } else {
     if (Object.keys(req.body)[2] === "menu") {

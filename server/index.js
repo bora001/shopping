@@ -104,5 +104,8 @@ app.post("/api/:menu", (req, res) => {
   });
 });
 
+//cart
+app.post("/api/product/cart", (req, res) => {});
+
 const port = 5000;
 app.listen(port, () => console.log(`localhost:${port}`));

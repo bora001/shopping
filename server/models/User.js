@@ -23,6 +23,9 @@ const userSchema = mongoose.Schema({
   tokenExp: {
     type: Number,
   },
+  cart: {
+    type: Array,
+  },
 });
 
 userSchema.pre("save", function (next) {

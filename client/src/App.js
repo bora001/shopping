@@ -18,6 +18,7 @@ function App() {
   const [searchActive, setsearchActive] = useState(false);
   const [newBody, setnewBody] = useState("");
   const [search, setsearch] = useState("");
+
   let method = Object.keys(newBody)[2];
 
   useEffect(() => {
@@ -90,7 +91,7 @@ function App() {
           <Route path="/register" element={<RegisterPage path="/register" />} />
           <Route
             path="/product/:productId"
-            element={<ProductPage path="/product/:productId" />}
+            element={<ProductPage path="/product/" props />}
           />
           <Route
             path="/:menu"
