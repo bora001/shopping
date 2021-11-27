@@ -30,7 +30,22 @@ function ProductPage(props) {
     setQty(Qty + 1);
   };
 
-  const addCart = (ProductInfo) => {};
+  const addCart = (ProductInfo) => {
+    let newInfo = {
+      userId: UserId,
+      ProductId: ProductInfo._id,
+      img: ProductInfo.Image,
+      title: ProductInfo.title,
+      price: ProductInfo.price,
+      Qty: Qty,
+      total: Qty * ProductInfo.price,
+    };
+
+    axios.post("/api/product/cart", newInfo).then((response) => {
+      console.log(response.data);
+    });
+    console.log(newInfo);
+  };
   console.log(ProductInfo);
 
   return (

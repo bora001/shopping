@@ -8,7 +8,9 @@ function LandingPage({
   viewMore,
   searchActive,
 }) {
-  useEffect(() => {}, [searchActive]);
+  useEffect(() => {
+    console.log(Products, "products");
+  }, [searchActive]);
 
   return (
     <div

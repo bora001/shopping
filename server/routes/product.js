@@ -54,7 +54,7 @@ router.post("/getlist", (req, res) => {
       .limit(limit)
       .exec((err, products) => {
         if (err) return res.status(400).send(err);
-        return res.status(200).json({ success: true, ...products });
+        return res.status(200).json({ success: true, products });
       });
   } else {
     if (Object.keys(req.body)[2] === "menu") {

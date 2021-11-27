@@ -42,10 +42,12 @@ function App() {
   const onSearch = (e) => {
     e.preventDefault();
     let body = { skip: skip + limit, limit, search };
+    console.log(search);
     setnewBody(body);
     setsearchActive(true);
     setkeyword(search);
     e.target.reset();
+    console.log("Search!");
   };
 
   const getMenuPage = (e) => {
@@ -56,6 +58,7 @@ function App() {
 
   const getProducts = (body) => {
     axios.post("/api/product/getlist", body).then((response) => {
+      console.log(response.data);
       setProducts(response.data.products);
     });
   };

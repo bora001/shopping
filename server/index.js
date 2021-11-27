@@ -105,7 +105,21 @@ app.post("/api/:menu", (req, res) => {
 });
 
 //cart
-app.post("/api/product/cart", (req, res) => {});
+app.post("/api/product/cart", (req, res) => {
+  let body = Object.assign({}, req.body);
+  let cart = delete body.userId;
+
+  console.log(req.body);
+  console.log(body);
+
+  User.findOneAndUpdate(
+    { _id: req.body.userId },
+    { $push: { cart: body } },
+    (err, update) => {
+      return res.status(200).send({ success: true });
+    }
+  );
+});
 
 const port = 5000;
 app.listen(port, () => console.log(`localhost:${port}`));
