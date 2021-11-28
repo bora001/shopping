@@ -54,39 +54,21 @@ app.post("/api/login", (req, res) => {
           message: "incorrect Password",
         });
 
-      // console.log(accessTokenObj);
       user.generateToken((err, user) => {
-        // let accessTokenObj = JSON.parse(localStorage.getItem("Token:"));
-
-        // console.log(user.token, "tk");
         if (err) return res.status(400).send(err);
         return res.status(200).json({
           loginSuccess: true,
           token: user.token,
-          // userId: accessTokenObj,
         });
-        // res.cookie("w_authExp", user.tokenExp);
-        // res.cookie("w_auth", user.token).status(200).json({
-        // loginSuccess: true,
-        // userId: user._id,
-        // });
       });
-      // user.generateToken((err, user) => {
-      //   if (err) {
-      //     return res.status(400).send(err, "index generateToken error");
-      //   }
-      //   return res.status(200).json({ loginSuccess: true, userId: user._id });
-      // });
     });
   });
 });
 
 // auth
 app.post("/api/auth", (req, res) => {
-  // console.log("index auth", req.body);
   let token = req.body.token;
   User.findByToken(token, (err, user) => {
-    // console.log(token);
     if (err) throw err;
     if (!user) return res.json({ isAuth: false, error: true });
     return res.json({ user });
@@ -95,9 +77,7 @@ app.post("/api/auth", (req, res) => {
 
 //menu
 app.post("/api/:menu", (req, res) => {
-  // console.log(req.body);
   let search = req.body.search;
-  // return res.status(200).json({ success: true, req: req.body.search });
   Product.find({ option: search }).exec((err, products) => {
     if (err) return res.status(400).send(err);
     return res.status(200).json({ success: true, newproduct: true, products });
@@ -108,7 +88,6 @@ app.post("/api/:menu", (req, res) => {
 app.post("/api/product/cart", (req, res) => {
   let body = Object.assign({}, req.body);
   let cart = delete body.userId;
-
   console.log(req.body);
   console.log(body);
 
@@ -120,6 +99,16 @@ app.post("/api/product/cart", (req, res) => {
     }
   );
 });
+
+//cartPage
+// app.post("/api/cart/info", (req, res) => {
+//   // let search = req.body.search;
+
+//   User.find({ _id: req.body }).exec((err, user) => {
+//     if (err) return res.status(400).send(err);
+//     return res.status(200).json({ success: true, user });
+//   });
+// });
 
 const port = 5000;
 app.listen(port, () => console.log(`localhost:${port}`));

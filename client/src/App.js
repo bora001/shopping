@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import UploadPage from "./pages/UploadPage/UploadPage";
+import CartPage from "./pages/CartPage/CartPage";
 import axios from "axios";
 import MenuPage from "./pages/MenuPage/MenuPage";
 
@@ -92,6 +93,7 @@ function App() {
           <Route path="/upload" element={<UploadPage path="upload" />} />
           <Route path="/login" element={<LoginPage path="/login" />} />
           <Route path="/register" element={<RegisterPage path="/register" />} />
+          <Route path="/cart" element={<CartPage path="/cart" />} />
           <Route
             path="/product/:productId"
             element={<ProductPage path="/product/" props />}

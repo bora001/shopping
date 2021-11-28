@@ -66,9 +66,11 @@ function Nav({ onSearch, onChange, getMenuPage }) {
           <a href="/upload">
             <button>Upload</button>
           </a>
-          <ShoppingCartOutlined
-            style={{ fontSize: "25px", color: "#Da9D26" }}
-          />
+          <a href="/cart">
+            <ShoppingCartOutlined
+              style={{ fontSize: "25px", color: "#Da9D26" }}
+            />
+          </a>
           <button onClick={onLogout}>logout</button>
         </div>
       ) : (
