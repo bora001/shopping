@@ -4,8 +4,24 @@ import {
   MinusSquareOutlined,
   DeleteTwoTone,
 } from "@ant-design/icons";
+import axios from "axios";
 
 function CartItem({ info }) {
+  const [UserId, setUserId] = useState("");
+  useEffect(() => {
+    let token = window.localStorage.getItem("x_auth");
+    axios.post("/api/auth", { token }).then((response) => {
+      setUserId(response.data.user._id);
+    });
+  }, []);
+
+  const itemDelete = (id) => {
+    axios
+      .post("/api/product/cart/delete", { _id: UserId, ProductId: id })
+      .then((response) => {
+        console.log(response.data);
+      });
+  };
   console.log(info);
   return (
     <div
@@ -53,7 +69,10 @@ function CartItem({ info }) {
           $ {info.total}
         </p>
         <div style={{ width: "20%" }}>
-          <DeleteTwoTone twoToneColor="#eb2f96" />
+          <DeleteTwoTone
+            twoToneColor="#eb2f96"
+            onClick={() => itemDelete(info.ProductId)}
+          />
         </div>
       </div>
     </div>

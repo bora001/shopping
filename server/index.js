@@ -100,15 +100,18 @@ app.post("/api/product/cart", (req, res) => {
   );
 });
 
-//cartPage
-// app.post("/api/cart/info", (req, res) => {
-//   // let search = req.body.search;
+app.post("/api/product/cart/delete", (req, res) => {
+  console.log(req.body._id);
+  console.log(req.body.ProductId);
 
-//   User.find({ _id: req.body }).exec((err, user) => {
-//     if (err) return res.status(400).send(err);
-//     return res.status(200).json({ success: true, user });
-//   });
-// });
+  User.findOneAndUpdate(
+    { _id: req.body._id },
+    { $pull: { cart: { ProductId: req.body.ProductId } } },
+    (err, update) => {
+      return res.status(200).send({ success: true });
+    }
+  );
+});
 
 const port = 5000;
 app.listen(port, () => console.log(`localhost:${port}`));
