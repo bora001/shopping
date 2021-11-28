@@ -87,17 +87,41 @@ app.post("/api/:menu", (req, res) => {
 //cart
 app.post("/api/product/cart", (req, res) => {
   let body = Object.assign({}, req.body);
-  let cart = delete body.userId;
+  // let cart = delete body.userId;
   console.log(req.body);
-  console.log(body);
 
-  User.findOneAndUpdate(
-    { _id: req.body.userId },
-    { $push: { cart: body } },
-    (err, update) => {
-      return res.status(200).send({ success: true });
+  User.findOne({ _id: req.body.userId }, (err, user) => {
+    let carts = user.cart;
+    let already = false;
+    for (let c in carts) {
+      if (carts[c]["ProductId"] == req.body.ProductId) {
+        already = true;
+      }
     }
-  );
+
+    if (already) {
+      User.findOneAndUpdate(
+        {
+          _id: req.body.userId,
+          "cart.ProductId": req.body.ProductId,
+        },
+        { $inc: { "cart.$.Qty": req.body.Qty } },
+        { new: true },
+        (err, update) => {
+          if (err) return res.status(200).json({ success: false, err });
+          return res.status(200).send({ success: true, update: true, update });
+        }
+      );
+    } else {
+      User.findOneAndUpdate(
+        { _id: req.body.userId },
+        { $push: { cart: body } },
+        (err, update) => {
+          return res.status(200).send({ success: true });
+        }
+      );
+    }
+  });
 });
 
 app.post("/api/product/cart/delete", (req, res) => {
