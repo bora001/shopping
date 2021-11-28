@@ -27,7 +27,15 @@ function CartItem({ info }) {
     <div
       style={{ display: "flex", border: "2px solid red", alignItems: "center" }}
     >
-      <img src={`http://localhost:5000/${info.img}`} style={{ width: "20%" }} />
+      <a
+        href={`http://localhost:3000/product/${info.ProductId}`}
+        style={{ width: "20%" }}
+      >
+        <img
+          src={`http://localhost:5000/${info.img}`}
+          style={{ width: "100%" }}
+        />
+      </a>
       <div
         style={{
           display: "flex",
