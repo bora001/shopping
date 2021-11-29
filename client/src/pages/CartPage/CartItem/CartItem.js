@@ -4,25 +4,15 @@ import {
   MinusSquareOutlined,
   DeleteTwoTone,
 } from "@ant-design/icons";
-import axios from "axios";
 
-function CartItem({ info }) {
-  const [UserId, setUserId] = useState("");
+function CartItem({ info, modifyQty, itemDelete }) {
+  const [total, settotal] = useState(0);
+
   useEffect(() => {
-    let token = window.localStorage.getItem("x_auth");
-    axios.post("/api/auth", { token }).then((response) => {
-      setUserId(response.data.user._id);
-    });
-  }, []);
+    console.log(info);
+    console.log(total);
+  }, [info, total]);
 
-  const itemDelete = (id) => {
-    axios
-      .post("/api/product/cart/delete", { _id: UserId, ProductId: id })
-      .then((response) => {
-        console.log(response.data);
-      });
-  };
-  console.log(info);
   return (
     <div
       style={{ display: "flex", border: "2px solid red", alignItems: "center" }}
@@ -63,18 +53,22 @@ function CartItem({ info }) {
             width: "30%",
           }}
         >
-          <MinusSquareOutlined />
+          <MinusSquareOutlined
+            onClick={() => modifyQty("minus", info.ProductId)}
+          />
           <span style={{ margin: "0 4%", display: "inline-block" }}>
             {info.Qty}
           </span>
-          <PlusSquareOutlined />
+          <PlusSquareOutlined
+            onClick={() => modifyQty("plus", info.ProductId)}
+          />
         </div>
         <p
           style={{
             width: "30%",
           }}
         >
-          $ {info.total}
+          {`${info.price * info.Qty}`}
         </p>
         <div style={{ width: "20%" }}>
           <DeleteTwoTone

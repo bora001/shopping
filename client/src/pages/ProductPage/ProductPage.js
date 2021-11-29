@@ -38,7 +38,6 @@ function ProductPage(props) {
       title: ProductInfo.title,
       price: ProductInfo.price,
       Qty: Qty,
-      total: Qty * ProductInfo.price,
     };
 
     axios.post("/api/product/cart", newInfo).then((response) => {

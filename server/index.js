@@ -105,7 +105,9 @@ app.post("/api/product/cart", (req, res) => {
           _id: req.body.userId,
           "cart.ProductId": req.body.ProductId,
         },
-        { $inc: { "cart.$.Qty": req.body.Qty } },
+        {
+          $inc: { "cart.$.Qty": req.body.Qty },
+        },
         { new: true },
         (err, update) => {
           if (err) return res.status(200).json({ success: false, err });
@@ -132,7 +134,7 @@ app.post("/api/product/cart/delete", (req, res) => {
     { _id: req.body._id },
     { $pull: { cart: { ProductId: req.body.ProductId } } },
     (err, update) => {
-      return res.status(200).send({ success: true });
+      return res.status(200).send({ success: true, update });
     }
   );
 });
